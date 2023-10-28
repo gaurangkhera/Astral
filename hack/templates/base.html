@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>AppName</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://rsms.me/" />
+    <link
+      rel="stylesheet"
+      href="https://rsms.me/inter/inter.css"
+    />
+    <script
+      src="{{url_for('static', filename='preline.min.js')}}"
+    ></script>
+  </head>
+  <body
+    style="font-family: 'Inter', sans-serif; min-height: 100vh;"
+  >
+    <header
+      class="flex flex-wrap sm:justify-start z-50 w-full bg-white text-sm py-3 sm:py-0"
+    >
+      <nav
+        class="relative max-w-7xl w-full mx-auto px-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8"
+        aria-label="Global"
+      >
+        <div class="flex items-center justify-between">
+          <a
+            href="/"
+            class="flex-none text-xl font-semibold"
+            href="#"
+            aria-label="AppName"
+            >AppName</a
+          >
+          <div class="sm:hidden">
+            <button
+              type="button"
+              class="hs-collapse-toggle p-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm"
+              data-hs-collapse="#navbar-collapse-with-animation"
+              aria-controls="navbar-collapse-with-animation"
+              aria-label="Toggle navigation"
+            >
+              <svg
+                class="hs-collapse-open:hidden w-4 h-4"
+                width="16"
+                height="16"
+                fill="currentColor"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
+                />
+              </svg>
+              <svg
+                class="hs-collapse-open:block hidden w-4 h-4"
+                width="16"
+                height="16"
+                fill="currentColor"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l-2.647 2.646a.5.5 0 0 1-.708-.708L7.293 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l2.647 2.647a.5.5 0 0 1-.708.708L8.707 8l2.647-2.646a.5.5 0 0 1-.708-.708L8 7.293 4.646 4.646z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div
+          id="navbar-collapse-with-animation"
+          class="hs-collapse hidden transition-all duration-300 basis-full grow sm:block"
+        >
+          <div
+            class="flex flex-col gap-y-4 gap-x-0 mt-5 sm:flex-row sm:items-center sm:justify-end sm:gap-y-0 sm:gap-x-7 sm:mt-0 sm:pl-7"
+          >
+            <a
+              class="text-gray-500 text-sm my-6 px-4 py-2 rounded-md hover:bg-gray-200 text-[] transition-all"
+              href="#"
+              aria-current="page"
+              >Pricing</a
+            >
+
+            {% if not current_user.is_authenticated %}
+            <a
+              href="/login"
+              class="inline-flex justify-center items-center gap-x-3 text-center bg-blue-600 hover:bg-blue-700 border border-transparent text-white text-sm font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white transition py-2 px-4 dark:focus:ring-offset-gray-800 text-lg mr-2"
+              >Get started
+              -&gt;</a
+            >
+            {% else %} 
+            <div x-data="{ isOpen: false }" class="relative inline-block">
+                <button @click="isOpen = !isOpen" class="relative z-10 block p-2 text-gray-700 bg-white w-10 h-10 border rounded-full">
+                    {{current_user.username[0]}}
+                </button>
+                <div x-show="isOpen" 
+                    @click.away="isOpen = false"
+                    x-transition:enter="transition ease-out duration-100"
+                    x-transition:enter-start="opacity-0 scale-90"
+                    x-transition:enter-end="opacity-100 scale-100"
+                    x-transition:leave="transition ease-in duration-100"
+                    x-transition:leave-start="opacity-100 scale-100"
+                    x-transition:leave-end="opacity-0 scale-90" 
+                    class="absolute right-0 z-20 w-48 py-2 mt-2 origin-top-right bg-white rounded-md border"
+                >
+                    <a href="/dashboard" class="block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-300 border-b transform hover:bg-gray-100"> Dashboard </a>
+                    <a href="/logout" class="block px-4 py-3 text-sm text-gray-600 transition-colors duration-300 transform hover:bg-gray-100"> Sign out </a>
+                </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </nav>
+    </header>
+    {% block content %} {% endblock content %}
+    <div
+      id="flash-toast"
+      class="fixed inset-x-0 bottom-10 flex justify-center items-center"
+    >
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div class="max-w-xs bg-white border rounded-md shadow-lg">
+        <div class="flex p-4">
+          <div class="flex-shrink-0">
+            {% if category == 'success' %}
+            <svg
+              class="h-4 w-4 text-green-500 mt-0.5 font-semibold"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
+              />
+            </svg>
+            {% else %}
+            <svg
+              class="h-4 w-4 text-red-500 mt-0.5 font-semibold"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"
+              />
+            </svg>
+            {% endif %}
+          </div>
+          <div class="ml-3">
+            <p class="text-sm text-gray-700">{{ message }}</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %} {% endif %} {% endwith %}
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var toast = document.getElementById("flash-toast");
+
+        // Show the toast with a smooth fade-in effect
+        toast.style.opacity = 1;
+
+        // After 5 seconds, hide the toast with a smooth fade-out effect
+        setTimeout(function () {
+          toast.style.opacity = 0;
+        }, 2000);
+      });
+    </script>
+    <script src="//unpkg.com/alpinejs" defer></script>
+  </body>
+</html>

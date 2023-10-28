@@ -1,5 +1,5 @@
 from hack import app, create_db, db
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, flash
 from flask_login import current_user, login_user, logout_user, login_required
 from hack.forms import LoginForm, RegForm
 from hack.models import User
@@ -14,7 +14,7 @@ def home():
 @app.route('/reg', methods=['GET', 'POST'])
 def reg():
     form = RegForm()
-    mess=''
+    mess = ''
     if form.validate_on_submit():
         email = form.email.data
         username = form.username.data
@@ -39,13 +39,13 @@ def login():
         password = form.password.data
         user = User.query.filter_by(email=email).first()
         if not user:
-            mess = 'Email not found'
+            flash('Email not found.', 'error')
         else:
             if check_password_hash(user.password, password):
                 login_user(user, remember=True)
                 return redirect(url_for('home'))
             else:
-                mess = 'Incorrect password.'
+                flash('Incorrect password.', 'error')
     return render_template('login.html', mess=mess, form=form)
 
 @app.route('/logout')
@@ -55,4 +55,4 @@ def logout():
     return redirect(url_for('home'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=6969)

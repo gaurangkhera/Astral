@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+    <!-- Card Blog -->
+<div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+    <!-- Title -->
+    <div class="max-w-2xl mx-auto text-center mb-10 lg:mb-14">
+      <h2 class="text-2xl font-bold md:text-4xl md:leading-tight :text-white text-center">Knowledge repository</h2>
+      <p class="text-sm text-gray-600 mt-4">Stay connected with the latest discoveries in Astralia.</p>
+      <a href="/contribute-data" class="sm:ml-[900px] inline-flex justify-center items-center gap-x-3 text-center bg-[#243E36] border border-transparent text-white text-sm font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-[#243E36] focus:ring-offset-2 focus:ring-offset-white transition py-2 px-4 dark:focus:ring-offset-gray-800 text-lg mr-2">Contribute</a>
+    </div>
+    <!-- End Title -->
+  
+    <!-- Grid -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Card -->
+      {% for i in posts %}
+      <a class="group rounded-xl overflow-hidden border border-gray-200 p-8" href="/posts/{{i.id}}">
+        <div class="relative pt-[50%] sm:pt-[70%] rounded-xl overflow-hidden">
+          <img class="w-full h-full absolute top-0 left-0 object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out rounded-xl" src="/static/uploads/{{i.image}}" alt="Image Description">
+          <span class="absolute top-0 right-0 rounded-tr-xl rounded-bl-xl text-xs font-medium bg-gray-800 text-white py-1.5 px-3 :bg-gray-900">
+            {{i.post_type}}
+          </span>
+        </div>
+  
+        <div class="mt-7">
+          <h3 class="text-xl font-semibold text-gray-800 group-hover:text-gray-600 :text-gray-200">
+            {{i.title}}
+          </h3>
+          <p class="mt-3 text-gray-800 :text-gray-200 truncate">
+            {{i.content}}
+          </p>
+          <p class="mt-5 inline-flex items-center gap-x-1.5 text-[#243E36] decoration-2 font-medium">
+            Read more ->
+          </p>
+        </div>
+      </a>
+      {% endfor %}
+  </div>
+{% endblock content %}

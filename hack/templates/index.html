@@ -1,4 +1,88 @@
 {% extends 'base.html' %}
 {% block content %}
-    
+    <!-- Hero -->
+<div class="relative overflow-hidden before:absolute before:top-0 before:left-1/2 before:bg-[url('../svg/component/squared-bg-element.svg')] before:bg-no-repeat before:bg-top before:w-full before:h-full before:-z-[1] before:transform before:-translate-x-1/2 :before:bg-[url('../svg/component/squared-bg-element-.svg')]">
+    <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-10">
+      <!-- Announcement Banner -->
+      <div class="flex justify-center">
+        <a class="inline-flex items-center gap-x-2 bg-white border border-gray-200 text-xs text-gray-600 p-2 px-3 rounded-full transition hover:border-gray-300 :bg-gray-800 :border-gray-700 :hover:border-gray-600 :text-gray-400" href="#">
+          Explore our new knowledge repository
+          <span class="flex items-center gap-x-1">
+            <span class="border-l border-gray-200 text-[#243E36] pl-2 :text-blue-500">Explore</span>
+            <svg class="w-2.5 h-2.5 text-blue-600" width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M5.27921 2L10.9257 7.64645C11.1209 7.84171 11.1209 8.15829 10.9257 8.35355L5.27921 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </a>
+      </div>
+      <!-- End Announcement Banner -->
+  
+      <!-- Title -->
+      <div class="mt-5 max-w-xl text-center mx-auto">
+        <h1 class="block font-bold text-gray-800 text-4xl md:text-5xl lg:text-6xl :text-gray-200">
+          Nuxeland. Supercharged.
+        </h1>
+      </div>
+      <!-- End Title -->
+  
+      <div class="mt-5 max-w-3xl text-center mx-auto">
+        <p class="text-lg text-gray-600 :text-gray-400">Astral is built by veterans, ensuring your safety in the realms of Nuxeland.</p>
+      </div>
+  
+      <!-- Buttons -->
+      <div class="mt-8 grid gap-3 w-full sm:inline-flex sm:justify-center">
+        <button class="px-6 py-3 bg-[#243E36] text-white rounded-lg font-medium text-lg"> Get Started -></button>
+      </div>
+      <!-- End Buttons -->
+    </div>
+  </div>
+  <section class="py-10 bg-white sm:py-16 lg:py-24">
+    <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div class="max-w-2xl mx-auto text-center">
+            <h2 class="text-3xl font-bold leading-tight text-black sm:text-4xl lg:text-5xl">How does it work?</h2>
+            <p class="max-w-lg mx-auto mt-4 text-base leading-relaxed text-gray-600">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis.</p>
+        </div>
+
+        <div class="relative mt-12 lg:mt-20">
+            <div class="absolute inset-x-0 hidden xl:px-44 top-2 md:block md:px-20 lg:px-28">
+                <img class="w-full" src="https://cdn.rareblocks.xyz/collection/celebration/images/steps/2/curved-dotted-line.svg" alt="" />
+            </div>
+
+            <div class="relative grid grid-cols-1 text-center gap-y-12 md:grid-cols-4 gap-x-12">
+                <div>
+                    <div class="flex items-center justify-center w-16 h-16 mx-auto bg-white border-2 border-gray-200 rounded-full shadow">
+                        <span class="text-xl font-semibold text-gray-700"> 1 </span>
+                    </div>
+                    <h3 class="mt-6 text-xl font-semibold leading-tight text-black md:mt-10">Create a free account</h3>
+                    <p class="mt-4 text-base text-gray-600">Sign up to Astral and start your journey in Nuxeland.</p>
+                </div>
+
+                <div>
+                    <div class="flex items-center justify-center w-16 h-16 mx-auto bg-white border-2 border-gray-200 rounded-full shadow">
+                        <span class="text-xl font-semibold text-gray-700"> 2 </span>
+                    </div>
+                    <h3 class="mt-6 text-xl font-semibold leading-tight text-black md:mt-10">Explore our vast repository</h3>
+                    <p class="mt-4 text-base text-gray-600">Read articles, explore discoveries and encounters with our knowledge repository.</p>
+                </div>
+
+                <div>
+                    <div class="flex items-center justify-center w-16 h-16 mx-auto bg-white border-2 border-gray-200 rounded-full shadow">
+                        <span class="text-xl font-semibold text-gray-700"> 3 </span>
+                    </div>
+                    <h3 class="mt-6 text-xl font-semibold leading-tight text-black md:mt-10">Use our tools</h3>
+                    <p class="mt-4 text-base text-gray-600">Navigate, and allocate resources efficiently throughout your journey in Nuxeland, using our powerful yet simple-to-use tools.</p>
+                </div>
+
+                <div>
+                    <div class="flex items-center justify-center w-16 h-16 mx-auto bg-white border-2 border-gray-200 rounded-full shadow">
+                        <span class="text-xl font-semibold text-gray-700"> 4 </span>
+                    </div>
+                    <h3 class="mt-6 text-xl font-semibold leading-tight text-black md:mt-10">Return safely</h3>
+                    <p class="mt-4 text-base text-gray-600">Follow our tips, and return safely to the comfort of your own home.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 {% endblock content %}

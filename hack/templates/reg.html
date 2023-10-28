@@ -2,7 +2,7 @@
 {% block content %}
 <div class="bg-white py-6 sm:py-8 lg:py-12">
     <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
-        <h2 class="mb-4 text-center text-2xl font-bold text-blue-600 md:mb-8 lg:text-3xl">Create an account</h2>
+        <h2 class="mb-4 text-center text-2xl font-bold text-[#243E36] md:mb-8 lg:text-3xl">Create an account</h2>
 
         <form action="/reg" method="post" class="mx-auto max-w-lg rounded-lg border">
             {{form.csrf_token}}
@@ -11,26 +11,26 @@
                 <div>
                     <label for="email" class="mb-2 inline-block text-sm text-gray-800 sm:text-base">Email</label>
                     {{form.email(class='w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none
-                    ring-blue-600 transition duration-100 focus:ring')}}
+                    ring-[#243E36] transition duration-100 focus:ring')}}
                 </div>
 
                 <div>
                     <label for="email" class="mb-2 inline-block text-sm text-gray-800 sm:text-base">Your name</label>
                     {{form.username(class='w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none
-                    ring-blue-600 transition duration-100 focus:ring')}}
+                    ring-[#243E36] transition duration-100 focus:ring')}}
                 </div>
 
                 <div>
                     <label for="password" class="mb-2 inline-block text-sm text-gray-800 sm:text-base">Password</label>
                     {{form.password(class='w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none
-                    ring-blue-600 transition duration-100 focus:ring')}}
+                    ring-[#243E36] transition duration-100 focus:ring')}}
                 </div>
 
                 <button
-                    class="block rounded-lg bg-blue-600 px-8 py-3 text-center text-sm font-medium hover:bg-blue-700 text-white outline-none ring-gray-300 transition duration-100 focus-visible:ring active:bg-gray-600 md:text-base">Proceed -></button>
+                    class="block rounded-lg bg-[#243E36] px-8 py-3 text-center text-sm font-medium hover:bg- text-white outline-none ring-gray-300 transition duration-100 focus-visible:ring active:bg-gray-600 md:text-base">Proceed -></button>
                 <div class="flex items-center justify-center bg-gray-100 p-4">
                     <p class="text-center text-sm text-gray-500">Already have an account? <a href="/login"
-                            class="text-blue-600 transition duration-100 hover:text-blue-600 active:text-blue-600">Sign
+                            class="text-[#243E36] transition duration-100 hover:text-[#243E36] active:text-[#243E36]">Sign
                             in.</a>
                     </p>
                 </div>

@@ -17,6 +17,9 @@ class User(db.Model,UserMixin):
     email = db.Column(db.String(64),index=True)
     password = db.Column(db.String)
     membership = db.Column(db.String, default='Free')
+    posts = db.relationship('Post')
+    comments = db.relationship('Comment')
+    likes = db.relationship('Like')
 
 class Post(db.Model):
     id = db.Column(db.String(32), primary_key=True, unique=True, default=get_uuid)

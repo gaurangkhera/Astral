@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+    <!-- Blog Article -->
+    <div class="max-w-3xl px-4 pt-6 lg:pt-10 pb-12 sm:px-6 lg:px-8 mx-auto">
+        <div class="max-w-2xl">
+            <!-- Avatar Media -->
+            <div class="flex justify-between items-center mb-6">
+                <div class="flex w-full sm:items-center gap-x-5 sm:gap-x-3">
+                    <div class="flex-shrink-0">
+                        <button class="relative z-10 block p-2 text-gray-700 bg-white w-10 h-10 border rounded-full">
+                            {{current_user.username[0]}}
+                        </button>
+                    </div>
+
+                    <div class="grow">
+                        <div class="grid sm:flex sm:justify-between sm:items-center gap-2">
+                            <div>
+                                <!-- Tooltip -->
+                                <div class="hs-tooltip inline-block [--trigger:hover] [--placement:bottom]">
+                                    <div class="hs-tooltip-toggle sm:mb-1 block text-left">
+                                        <span class="font-semibold text-gray-800 :text-gray-200">
+                                            {{current_user.username}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <!-- End Tooltip -->
+
+                                <ul class="text-xs text-gray-500">
+                                    <li class="inline-block relative pr-6 last:pr-0 last-of-type:before:hidden before:absolute before:top-1/2 before:right-2 before:-translate-y-1/2 before:w-1 before:h-1 before:bg-gray-300 before:rounded-full :text-gray-400">
+                                        {{page.created_at}}
+                                    </li>
+                                    <li class="inline-block relative pr-6 last:pr-0 last-of-type:before:hidden before:absolute before:top-1/2 before:right-2 before:-translate-y-1/2 before:w-1 before:h-1 before:bg-gray-300 before:rounded-full :text-gray-400">
+                                        {% set word_count = page.content.split() | length %}
+                                        {% set words_per_minute = 200 %} {# Adjust this value as needed #}
+                                        {% set reading_time = (word_count / words_per_minute) %}
+                                        {% if reading_time < 1 %}
+                                            Less than a minute read
+                                        {% else %}
+                                            {{ "%d min read"|format(reading_time) }}
+                                        {% endif %}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Avatar Media -->
+
+            <!-- Content -->
+            <div class="space-y-5 md:space-y-8">
+                <div class="space-y-3">
+                    <h2 class="text-2xl font-bold md:text-3xl :text-white">Journal written on {{page.created_at}}</h2>
+
+                    <p class="text-lg text-gray-800 :text-gray-200">{{page.content}}</p>
+                </div>
+            </div>
+            <!-- End Content -->
+        </div>
+    </div>
+    <!-- End Blog Article -->
+{% endblock content %}

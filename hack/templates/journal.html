@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto grid gap-8 grid-cols-1 md:grid-cols-2">
+        <!-- Form to add today's journal -->
+        <div class="bg-white border rounded-xl p-4 sm:p-10">
+            <div class="text-center">
+                <h2 class="text-xl font-bold text-gray-800 sm:text-3xl">
+                    Today's journal
+                </h2>
+                <p class="text-sm mt-4 text-gray-600">Jot down important things here.</p>
+            </div>
+            <form action="/journal" method="post" enctype="multipart/form-data" class="mt-5">
+                <div>
+                    <label class="block mb-2 text-sm font-medium">You've already written today's journal.</label>
+                    <div class="mt-1">
+                        {% if already_written %}
+                            {{already_written.content}}
+                        {% else %}
+                        <label for="content" class="block mb-2 text-sm font-medium">Content</label>
+                        <textarea name="content" id="content" rows="10" class="py-3 px-4 block w-full transition-all border border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 sm:p-4" placeholder="Content"></textarea>
+                        <div class="mt-6">
+                            <button type="submit" class="py-2 px-4 bg-[#243E36] text-white font-medium rounded-md transition-all">Proceed -></button>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- End of form -->
+        <!-- Display previous journal content -->
+        <div class="border rounded-xl p-4 sm:p-10">
+            <h2 class="text-xl font-bold text-gray-800 sm:text-3xl">Previous Entries</h2>
+            <!-- Loop through previous journal entries and display a few words -->
+            {% for entry in current_user.pages %}
+                <a href="/journal/page/{{entry.id}}" class="my-8 text-sm text-gray-600 truncate">{{loop.index}}. {{ entry.created_at }}</a>
+            {% endfor %}
+        </div>
+        <!-- End of display -->
+    </div>
+{% endblock content %}

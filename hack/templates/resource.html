@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="bg-white py-6 sm:py-8 lg:py-12 mx-auto max-w-7xl md:p-10">
+    <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
+        <h2 class="text-center text-2xl font-bold text-gray-800 md:mb-8 lg:text-3xl">Found more {{resource.name}}?</h2>
+        <p class="text-gray-600 mb-8 text-center">Great job! Enter it here to keep track.</p>
+
+        <form action="/dashboard/resource/{{resource.id}}" method="post" class="mx-auto max-w-lg rounded-lg border">
+            {{form.csrf_token}}
+            {{form.hidden_tag()}}
+            <div class="flex flex-col gap-4 p-4 md:p-8">
+                <div>
+                    <label for="email" class="mb-2 inline-block text-sm text-gray-800 sm:text-base">Procured quantity</label>
+                    {{form.qty(class='w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none
+                    ring-[#243E36] transition duration-100 focus:ring')}}
+                </div>
+
+                <button
+                    class="block rounded-lg bg-[#243E36] px-8 py-3 text-center text-sm font-medium text-white outline-none ring-gray-300 transition duration-100 focus-visible:ring active:bg-gray-600 md:text-base">Save -></button>
+                <div class="flex items-center justify-center bg-gray-100 p-4">
+                    <p class="text-center text-sm text-gray-500">Didn't find any? <a href="/dashboard"
+                            class="text-[#243E36]">Cancel.</a>
+                    </p>
+                </div>
+        </form>
+    </div>
+</div>
+<canvas id="resourceUsageChart" width="800" class="mt-16" height="400"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var ctx = document.getElementById('resourceUsageChart').getContext('2d');
+        var dates = {{ dates | tojson }};
+        var usages = {{ usages | tojson }};
+
+        var resourceUsageChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: '{{resource.name | title}} Usage Over Time',
+                    data: usages,
+                    borderColor: '#243E36',
+                    fill: false
+                }]
+            },
+            options: {
+                // Chart options here
+            }
+        });
+</script>
+{% endblock content %}

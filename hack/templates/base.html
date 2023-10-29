@@ -20,7 +20,7 @@
   <body
     style="font-family: 'Inter', sans-serif; min-height: 100vh;">
     <header
-      class="flex flex-wrap sm:justify-start z-50 w-full bg-white text-sm py-3 sm:py-0"
+      class="flex flex-wrap sm:justify-start z-50 w-full bg-white py-3 sm:py-0"
     >
       <nav
         class="relative max-w-7xl w-full mx-auto px-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8"
@@ -76,13 +76,13 @@
             class="flex flex-col gap-y-4 gap-x-0 mt-5 sm:flex-row sm:items-center sm:justify-end sm:gap-y-0 sm:gap-x-7 sm:mt-0 sm:pl-7"
           >
             <a
-              class="text-gray-500 text-sm my-6 px-4 py-2 rounded-md hover:bg-gray-200 text-[] transition-all"
+              class="text-gray-500 text-sm my-6 px-4 py-2 rounded-md hover:bg-gray-200 transition-all"
               href="#"
               aria-current="page"
               >Pricing</a
             >
             <a
-              class="text-gray-500 text-sm my-6 px-4 py-2 rounded-md hover:bg-gray-200 text-[] transition-all"
+              class="text-gray-500 text-sm my-6 px-4 py-2 rounded-md hover:bg-gray-200 transition-all"
               href="/repository"
               aria-current="page"
               >Repository</a
@@ -90,7 +90,7 @@
 
             {% if not current_user.is_authenticated %}
             <a
-              href="/login"
+              href="/reg"
               class="inline-flex justify-center items-center gap-x-3 text-center bg-[#243E36] border border-transparent text-white text-sm font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-[#243E36]focus:ring-offset-2 focus:ring-offset-white transition py-2 px-4 text-lg mr-2"
               >Get started
               -&gt;</a
@@ -111,6 +111,7 @@
                     class="absolute right-0 z-20 w-48 py-2 mt-2 origin-top-right bg-white rounded-md border"
                 >
                     <a href="/dashboard" class="block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-300 border-b transform hover:bg-gray-100"> Dashboard </a>
+                    <a href="/journal" class="block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-300 border-b transform hover:bg-gray-100"> Journal </a>
                     <a href="/logout" class="block px-4 py-3 text-sm text-gray-600 transition-colors duration-300 transform hover:bg-gray-100"> Sign out </a>
                 </div>
             </div>

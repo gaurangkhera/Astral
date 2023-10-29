@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if low_resources | length > 0 %}
+<div class="text-red-500 bg-[#f1f1f1] text-sm rounded-md p-4 flex justify-between items-center mx-32" id="alert">
+    <p>You're running low on
+        {% for res in low_resources %}
+            {{ res.name }}{% if not loop.last %}{% if loop.index == loop.length - 2 %} & {% else %}, {% endif %}{% endif %}{% endfor %}.
+    </p>
+    <button id="closeAlert" class="text-gray-800 transition duration-300">
+        <i data-lucide="x" class="w-4 h-4"></i>
+    </button>
+</div>
+{% endif %}
+
+    <main class='mx-auto max-w-7xl md:p-10'>
+        <div class='mt-4 flex flex-col items-start justify-between gap-4 border-b border-gray-200 pb-5 sm:flex-row sm:items-center sm:gap-0'>
+            <h1 class='mb-3 font-bold text-5xl text-[#243E36] heading'>
+                Overview
+            </h1>
+
+            <a href="/dashboard/add-resources" class="border-2 border-[#243E36] rounded-lg text-white bg-[#243E36] transition-all 2s font-medium px-8 py-2 mr-4">
+                Add resources
+            </a>
+        </div>
+
+        <ul class='mt-8 grid grid-cols-1 gap-6 divide-y divide-zinc-200 md:grid-cols-2 lg:grid-cols-3'>
+            {% if current_user.resources | length > 0 %}
+                {% for i in current_user.resources %}
+                    <li class="ol-span-1 divide-y divide-gray-200 rounded-lg bg-white border border-gray-200 transition hover:shadow-lg">
+                        <a href="/dashboard/resource/{{i.id}}" class='flex flex-col gap-2'>
+                            <div class='pt-6 px-6 flex w-full items-center justify-between space-x-6'>
+                                <i data-lucide="pizza" class="w-10 h-10"></i>
+                                <div class='flex-1 truncate'>
+                                    <div class='flex items-center space-x-3'>
+                                        <h3 class='truncate text-lg font-medium text-zinc-900'>
+                                            {{i.name}}
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class='px-6 mt-4 grid grid-cols-3 place-items-center py-2 gap-6 text-xs text-zinc-500'>
+                            <div class='flex items-center gap-2'>
+                                {{i.quantity}}
+                            </div>
+                            <a href="/dashboard/resource/{{i.id}}/use-resource" class="ml-56 w-10 h-10 bg-[#243E36] px-2 py-1 text-white rounded-2xl flex items-center justify-center">
+                                <i data-lucide="pencil" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+            <canvas id="resourceUsageChart" width="800" class="mt-16" height="400"></canvas>
+        {% else %}
+            <div class="flex flex-col items-center justify-center mt-16">
+                <i data-lucide="ghost" class="w-10 h-10 text-center"></i>
+                <h1 class="text-center font-semibold text-3xl text-[#243E36]">
+                    It's lonely out here...
+                </h1>
+            </div>
+        {% endif %}
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var ctx = document.getElementById('resourceUsageChart').getContext('2d');
+        var dates = {{ dates | tojson }};
+        var usages = {{ usages | tojson }};
+
+        var resourceUsageChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: 'Overall Resource Usage Over Time',
+                    data: usages,
+                    borderColor: '#243E36',
+                    fill: false
+                }]
+            },
+            options: {
+                // Chart options here
+            }
+        });
+
+        document.getElementById('closeAlert').addEventListener('click', () => {
+            document.getElementById('alert').style.display = 'none';
+        })
+    </script>
+{% endblock content %}

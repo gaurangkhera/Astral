@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="bg-white py-6 sm:py-8 lg:py-12">
+    <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
+        <h2 class="mb-4 text-center text-2xl font-bold text-[[#243E36] md:mb-8 lg:text-3xl">Add Resources</h2>
+
+        <form action="/dashboard/add-resources" method="post" class="mx-auto max-w-lg rounded-lg border">
+            <div class="flex flex-col gap-4 p-4 md:p-8">
+                <div id="resource-inputs">
+                    <div class="resource mb-4">
+                        <label for="resource-name" class="mb-2 inline-block text-sm text-gray-800 sm:text-base">Resource Name</label>
+                        <input type="text" required name="resource-name[]" class="w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-[#243E36] transition duration-100 focus:ring">
+                        <label for="resource-quantity" class="mt-2 inline-block text-sm text-gray-800 sm:text-base">Resource Quantity</label>
+                        <input type="number" required name="resource-quantity[]" class="w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-[#243E36] transition duration-100 focus:ring">
+                    </div>
+                </div>
+                <button type="button" class="block rounded-lg bg-[#243E36] px-8 py-3 text-center text-sm font-medium text-white outline-none ring-gray-300 transition duration-100 focus-visible:ring active:bg-gray-600 md:text-base" id="add-resource">Add more</button>
+                <button class="block rounded-lg bg-[#243E36] px-8 py-3 text-center text-sm font-medium text-white outline-none ring-gray-300 transition duration-100 focus-visible:ring active:bg-gray-600 md:text-base" id="submit-resource-form">Submit</button>
+                <div class="flex items-center justify-center bg-gray-100 p-4">
+                    <p class="text-center text-sm text-gray-500">Don't want to add more resources? <a href="/dashboard/org/{{ id }}/sub-org/{{ so_id }}" class="text-[#243E36] transition duration-100 hover:text-[#243E36] active:text-#243E36]">Cancel.</a></p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const addResourceButton = document.getElementById('add-resource');
+        const resourceInputs = document.getElementById('resource-inputs');
+
+        addResourceButton.addEventListener('click', function () {
+            const resourceDiv = document.createElement('div');
+            resourceDiv.className = 'resource mb-4';
+
+            resourceDiv.innerHTML = `
+                <label for="resource-name" class="mb-2 inline-block text-sm text-gray-800 sm:text-base">Resource Name</label>
+                <input type="text" name="resource-name[]" class="w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-[#243E36] transition duration-100 focus:ring">
+                <label for="resource-quantity" class="mt-2 inline-block text-sm text-gray-800 sm:text-base">Resource Quantity</label>
+                <input type="number" name="resource-quantity[]" class="w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-[#243E36] transition duration-100 focus:ring">
+            `;
+
+            resourceInputs.appendChild(resourceDiv);
+        });
+
+        resourceInputs.addEventListener('click', function (e) {
+            if (e.target && e.target.classList.contains('remove-resource')) {
+                e.target.parentElement.remove();
+            }
+        });
+    });
+</script>
+{% endblock %}

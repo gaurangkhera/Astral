@@ -150,7 +150,10 @@ def reg():
             db.session.commit()
             login_user(new_user)
             flash('Account created successfully', 'success')
-            return redirect('/')
+            if request.args.get('next'):
+                print(request.args.get('next'))
+                return redirect(request.args.get('next'))
+            return redirect(url_for('home'))
     return render_template('reg.html', form=form, mess=mess)
 
 @app.route('/journal', methods=['GET', 'POST'])
@@ -177,6 +180,7 @@ def page(id):
 def login():
     form = LoginForm()
     mess=''
+    print(request.args.get('next'))
     if form.validate_on_submit():
         email = form.email.data
         password = form.password.data
@@ -186,6 +190,9 @@ def login():
         else:
             if check_password_hash(user.password, password):
                 login_user(user, remember=True)
+                if request.args.get('next'):
+                    print(request.args.get('next'))
+                    return redirect(request.args.get('next'))
                 return redirect(url_for('home'))
             else:
                 flash('Incorrect password.', 'error')

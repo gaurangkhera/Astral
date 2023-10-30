@@ -167,6 +167,7 @@ def journal():
         db.session.commit()
         flash('Successfully filled today\'s journal.', 'success')
         return redirect(url_for('journal'))
+    print(datetime.datetime.now().strftime('%b %d'))
     already_written = Page.query.filter_by(user=current_user.id, created_at=datetime.datetime.now().strftime('%b %d')).first()
     return render_template('journal.html', already_written=already_written)
 

@@ -11,9 +11,9 @@
             </div>
             <form action="/journal" method="post" enctype="multipart/form-data" class="mt-5">
                 <div>
-                    <label class="block mb-2 text-sm font-medium">You've already written today's journal.</label>
                     <div class="mt-1">
                         {% if already_written %}
+                        <label class="block mb-2 text-sm font-medium">You've already written today's journal.</label>
                             {{already_written.content}}
                         {% else %}
                         <label for="content" class="block mb-2 text-sm font-medium">Content</label>

@@ -32,7 +32,7 @@
             <h2 class="text-xl font-bold text-gray-800 sm:text-3xl">Previous Entries</h2>
             <!-- Loop through previous journal entries and display a few words -->
             {% for entry in current_user.pages %}
-                <a href="/journal/page/{{entry.id}}" class="my-8 text-sm text-gray-600 truncate">{{loop.index}}. {{ entry.created_at }}</a>
+                <a href="/journal/page/{{entry.id}}" class="my-8 font-medium text-sm text-gray-600 truncate underline">{{loop.index}}. {{ entry.created_at }}</a><br>
             {% endfor %}
         </div>
         <!-- End of display -->

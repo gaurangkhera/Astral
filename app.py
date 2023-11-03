@@ -2,7 +2,7 @@ from hack import app, create_db, db
 from flask import render_template, redirect, url_for, flash, request, jsonify
 from flask_login import current_user, login_user, logout_user, login_required
 from hack.forms import LoginForm, RegForm, UseResourceForm
-from hack.models import User, Post, Like, Comment, Resource, Page, ResourceUsage, Message
+from hack.models import User, Post, Like, Comment, Resource, Page, ResourceUsage, Message, UserSubscription
 from werkzeug.security import generate_password_hash, check_password_hash
 from uuid import uuid4
 from werkzeug.utils import secure_filename
@@ -11,9 +11,10 @@ import requests
 import openai
 from dotenv import load_dotenv
 from os import getenv
+import stripe
 
 load_dotenv()
-
+stripe.api_key = 'sk_test_51O8JhiSHhRhBTwdEcLCCXkOXos3lSvIIFaxYlJyna5O6VClutnBp85IWSgwCDxYDmfNl054S95j49jLf6VYlc3nd00I90av8L9'
 app.config['UPLOAD_FOLDER'] = 'hack/static/uploads'
 create_db(app)
 openai.api_key = getenv('OPENAI_API_KEY')
@@ -21,6 +22,64 @@ openai.api_key = getenv('OPENAI_API_KEY')
 @app.route('/')
 def home():
     return render_template('index.html')
+
+@app.route('/cancel-subscription', methods=['POST'])
+@login_required
+def cancel_subscription():
+    # Get the logged-in user
+    current_user = User.query.get(current_user.id)
+    
+    # Assuming the customer ID is stored in the User model
+    customer_id = current_user.stripe_customer_id  # Retrieve Stripe customer ID from the database
+
+    if customer_id:
+        # Use Stripe Billing Portal to create a session for subscription cancellation
+        stripe.billing_portal.Session.create(
+            customer=customer_id,
+            return_url=url_for('home', _external=True)  # Redirect user to home page after cancellation
+        )
+        return jsonify({'status': 'success', 'message': 'Subscription cancellation initiated. Redirecting to the billing portal...'})
+    else:
+        return jsonify({'status': 'error', 'message': 'Stripe customer ID not found.'})
+
+@app.route('/billing', methods=['GET', 'POST'])
+@login_required
+def billing():
+    if request.args.get('success') == 'True':
+        print('whoo niga')
+        current_user.sub_plan = 'Pro'
+        db.session.add(current_user)
+        db.session.commit()
+        flash('Payment successful.', 'success')
+        return redirect(url_for('billing'))
+    elif request.args.get('success') == 'False':
+        flash('Payemnt cancelled.', 'error')
+        return redirect(url_for('billing'))
+    if request.method == 'POST':
+        session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[
+                {
+                    'price': 'price_1O8Jk8SHhRhBTwdERBjxB7sz',
+                    'quantity': 1,
+                },
+            ],
+            mode='subscription',
+            success_url='http://localhost:6969/billing?success=True',
+            cancel_url='https://localhost:6969/billing?success=False',
+        )
+        return redirect(session.url, code=303)
+
+    return render_template('upgrade.html', user=current_user)
+
+@app.route('/cancel', methods=['POST'])
+@login_required
+def cancel():
+    current_user.sub_plan = 'Free'
+    db.session.add(current_user)
+    db.session.commit()
+    flash('Plan cancelled successfully.', 'success')
+    return redirect(url_for('billing'))
 
 @app.route('/repository')
 def repository():
@@ -177,6 +236,9 @@ def navigation():
 @app.route('/guru')
 @login_required
 def guru():
+    if current_user.sub_plan == 'Free':
+        flash('You need to upgrade to the pro plan to access this feature.', 'error')
+        return redirect(url_for('pricing'))
     messages = Message.query.filter_by(user=current_user.id).all()
     return render_template('guru2.html', messages=messages)
 
@@ -204,6 +266,8 @@ def ask_question():
 
     return jsonify({'response': completion['choices'][0]['message']['content']})
 
+
+
 @app.route('/find_route', methods=['POST'])
 def find_route():
     start = request.json.get('start')
@@ -223,6 +287,10 @@ def find_route():
         return jsonify(route_data)
     else:
         return jsonify({"error": "Route not found"})
+    
+@app.route('/pricing')
+def pricing():
+    return render_template('pricing.html')
 
 @app.route('/journal', methods=['GET', 'POST'])
 @login_required

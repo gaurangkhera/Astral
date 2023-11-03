@@ -117,6 +117,9 @@
                     x-transition:leave-end="opacity-0 scale-90" 
                     class="absolute right-0 z-50 w-48 py-2 mt-2 origin-top-right bg-white rounded-md border"
                 >
+                  <a href="/billing" class="block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-300 border-b text-[#234E36] transform hover:bg-gray-100"> {% if current_user.sub_plan == 'Free' %}
+                    <span class="text-transparent bg-clip-text bg-gradient-to-tr from-[#E0EDC9] to-[#243E36]">Upgrade</span> {% else %} Manage subscription
+                  {% endif %} </a>
                     <a href="/dashboard" class="block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-300 border-b transform hover:bg-gray-100"> Dashboard </a>
                     <a href="/journal" class="block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-300 border-b transform hover:bg-gray-100"> Journal </a>
                     <a href="/logout" class="block px-4 py-3 text-sm text-gray-600 transition-colors duration-300 transform hover:bg-gray-100"> Sign out </a>

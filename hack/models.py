@@ -23,6 +23,14 @@ class User(db.Model,UserMixin):
     pages = db.relationship('Page', backref='authorPage', lazy=True)
     resources = db.relationship('Resource', backref='authorResource', lazy=True)
     resource_usage = db.relationship('ResourceUsage', backref='authorResourceUsage', lazy=True)
+    sub_plan = db.Column(db.String, default='Free')
+
+class UserSubscription(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.String(50), unique=True, nullable=False)
+    subscription_id = db.Column(db.String(50))
+    subscription_status = db.Column(db.String(20))
+    cancellation_date = db.Column(db.DateTime)
 
 class Message(db.Model):
     id = db.Column(db.String(32), primary_key=True, unique=True, default=get_uuid)

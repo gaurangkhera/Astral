@@ -37,6 +37,7 @@ joblib==1.2.0
 Mako==1.2.4
 MarkupSafe==2.1.2
 outcome==1.2.0
+python-dotenv
 platformdirs==3.5.0
 pycparser==2.21
 PySocks==1.7.1

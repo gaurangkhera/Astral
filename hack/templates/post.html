@@ -63,28 +63,38 @@
         </div>
     </div>
     <!-- End Blog Article -->
+<!-- Comments Section -->
+<div id="commentModal" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex justify-center items-center hidden">
+    <div class="bg-white p-6 rounded-lg max-w-sm">
+        <span class="block text-right cursor-pointer text-2xl" onclick="toggleCommentModal()">&times;</span>
+        <h3 class="text-2xl font-bold mb-4">Comments</h3>
+        <ul id="commentList" class="divide-y divide-gray-300">
+            {% for comment in post.comments %}
+            <li class="py-2">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <span class="font-bold">{{ comment.author }}</span>
+                        <p class="text-sm text-gray-500">{{ comment.content }}</p>
+                    </div>
+                    <div class="text-xs text-gray-500">
+                        {{ comment.created_at.strftime('%H:%M') }}, {{ comment.created_at.strftime('%b %d') }}
+                        {% if comment.author == current_user.username %}
+                            <button class="bg-red-400 text-sm text-white py-1 px-3 rounded-md">Delete</button>
+                        {% endif %}
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        <!-- Input box to add comments -->
+        <div class="mt-4 flex">
+            <input name="comment" id="commentInput" type="text" class="flex-grow border border-gray-300 rounded p-2 mr-2" placeholder="Add a comment">
+            <button class="bg-[#243E36] text-white py-2 px-4 rounded-md text-sm" id="commentBtn" onclick="addComment()">Add Comment</button>
+        </div>
+    </div>
+</div>
+<!-- End Comments Section -->
 
-    <!-- Comments Section -->
-    <div id="commentModal" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex justify-center items-center hidden">
-      <div class="bg-white p-6 rounded-lg">
-          <span class="block text-right cursor-pointer text-2xl" onclick="toggleCommentModal()">&times;</span>
-          <h3 class="text-2xl font-bold mb-4">Comments</h3>
-          <ul id="commentList" class="divide-y divide-gray-300">
-             {% for i in post.comments %}
-                {{i.author}} said {{i.content}} at {{i.created_at.strftime('%H:%M')}}, {{i.created_at.strftime('%b %d')}}<br>
-                {% if i.author == current_user.username %}
-                    <button class="bg-[#243E36] text-white py-2 px-4 rounded-md hover:bg-blue-700">Delete</button>
-                {% endif %}<br>
-             {% endfor %}
-          </ul>
-          <!-- Input box to add comments -->
-          <div class="mt-4 flex">
-              <input name="comment" id="commentInput" type="text" class="flex-grow border border-gray-300 rounded p-2 mr-2" placeholder="Add a comment">
-              <button class="bg-[#243E36] text-white py-2 px-4 rounded-md hover:bg-blue-700" id="commentBtn" onclick="addComment()">Add Comment</button>
-          </div>
-      </div>
-  </div>
-    <!-- End Comments Section -->
 
     <!-- Sticky Share Group -->
     <div class="sticky bottom-6 inset-x-0 text-center">
@@ -158,41 +168,58 @@
         }
 
         async function addComment() {
-            const commentInput = document.getElementById('commentInput');
-            const comment = commentInput.value;
-            const btn = document.getElementById('commentBtn')
+    const commentInput = document.getElementById('commentInput');
+    const comment = commentInput.value;
+    const btn = document.getElementById('commentBtn');
 
-            if (comment) {
-                btn.textContent = 'Adding...'
-                const commentList = document.getElementById('commentList');
-                const commentItem = document.createElement('li');
-                commentItem.textContent = comment;
-                commentList.prepend(commentItem);
+    if (comment) {
+        btn.textContent = 'Adding...';
+        const commentList = document.getElementById('commentList');
+        const commentItem = document.createElement('li');
+        commentItem.classList.add('py-2'); // Adding padding for consistent styling
 
-                try {
-                    const response = await fetch('/addcomment/{{post.id}}', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ comment }),
-                    });
+        // Constructing the comment content structure
+        const commentContent = document.createElement('div');
+        commentContent.classList.add('flex', 'items-center', 'justify-between');
 
-                    if(response.ok) btn.textContent = 'Add Content'
+        const userComment = document.createElement('div');
+        userComment.innerHTML = `
+            <span class="font-bold">{{ current_user.username }}</span>
+            <p class="text-sm text-gray-500">${comment}</p>
+        `;
 
-                    if (!response.ok) {
-                        // Roll back the UI changes if there's an error
-                        commentItem.remove();
-                    }
-                } catch (error) {
-                    // Roll back the UI changes in case of a network error
-                    commentItem.remove();
-                    console.error('Error:', error);
-                }
+        const timestamp = document.createElement('div');
+        timestamp.classList.add('text-xs', 'text-gray-500');
+        const date = new Date();
+        timestamp.innerText = `${date.getHours()}:${date.getMinutes()}, ${date.toDateString()}`;
 
-                // Clear the input box after adding the comment
-                commentInput.value = '';
+        commentContent.appendChild(userComment);
+        commentContent.appendChild(timestamp);
+        commentItem.appendChild(commentContent);
+        commentList.prepend(commentItem);
+
+        try {
+            const response = await fetch('/addcomment/{{post.id}}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ comment }),
+            });
+
+            if (response.ok) btn.textContent = 'Add Comment';
+
+            if (!response.ok) {
+                commentItem.remove(); // Roll back the UI changes if there's an error
             }
+        } catch (error) {
+            commentItem.remove(); // Roll back the UI changes in case of a network error
+            console.error('Error:', error);
         }
+
+        commentInput.value = ''; // Clear the input box after adding the comment
+    }
+}
+
     </script>
 {% endblock content %}

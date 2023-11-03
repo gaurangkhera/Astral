@@ -33,7 +33,7 @@ class ResourceUsage(db.Model):
 
 class Post(db.Model):
     id = db.Column(db.String(32), primary_key=True, unique=True, default=get_uuid)
-    created_at = db.Column(db.DateTime)
+    created_at = db.Column(db.DateTime, default=datetime.datetime.now)
     image = db.Column(db.String(255))
     title = db.Column(db.String(255))
     content = db.Column(db.Text)

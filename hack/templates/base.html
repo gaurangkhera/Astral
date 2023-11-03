@@ -13,8 +13,7 @@
       rel="stylesheet"
       href="https://rsms.me/inter/inter.css"
     />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+    <link rel="shortcut icon" href="{{url_for('static', filename='icon.svg')}}" type="image/x-icon">
     <script
       src="{{url_for('static', filename='preline.min.js')}}"
     ></script>
@@ -99,7 +98,7 @@
             >
             {% else %} 
             <div x-data="{ isOpen: false }" class="relative inline-block">
-                <button @click="isOpen = !isOpen" class="relative z-10 block p-2 text-gray-700 bg-white w-10 h-10 border rounded-full">
+                <button @click="isOpen = !isOpen" class="relative block p-2 text-gray-700 bg-white w-10 h-10 border rounded-full">
                     {{current_user.username[0]}}
                 </button>
                 <div x-show="isOpen" 
@@ -110,7 +109,7 @@
                     x-transition:leave="transition ease-in duration-100"
                     x-transition:leave-start="opacity-100 scale-100"
                     x-transition:leave-end="opacity-0 scale-90" 
-                    class="absolute right-0 z-20 w-48 py-2 mt-2 origin-top-right bg-white rounded-md border"
+                    class="absolute right-0 z-50 w-48 py-2 mt-2 origin-top-right bg-white rounded-md border"
                 >
                     <a href="/dashboard" class="block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-300 border-b transform hover:bg-gray-100"> Dashboard </a>
                     <a href="/journal" class="block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-300 border-b transform hover:bg-gray-100"> Journal </a>

@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    <div id="map" class="mt-8 mx-auto w-11/12 lg:w-10/12 xl:w-9/12"></div>
+    <div id="map" class="mt-8 mx-auto w-11/12 lg:w-10/12 xl:w-9/12 z-20"></div>
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
@@ -50,7 +50,7 @@
 
 
         // Create a straight line between the two points
-        const line = L.polyline([startMarker.getLatLng(), endMarker.getLatLng()], { color: '#243E36' }).addTo(map);
+        const line = L.polyline([startMarker.getLatLng(), endMarker.getLatLng()], { color: '#4A89F3' }).addTo(map);
 
         // Fit the map to the bounds of the image overlay
         map.fitBounds(bounds);

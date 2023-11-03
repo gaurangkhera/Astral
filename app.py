@@ -65,8 +65,8 @@ def billing():
                 },
             ],
             mode='subscription',
-            success_url='http://localhost:6969/billing?success=True',
-            cancel_url='https://localhost:6969/billing?success=False',
+            success_url='https://astral-0idp.onrender.com/billing?success=True',
+            cancel_url='https://astral-0idp.onrender.com/billing?success=False',
         )
         return redirect(session.url, code=303)
 

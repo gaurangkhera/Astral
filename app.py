@@ -2,15 +2,21 @@ from hack import app, create_db, db
 from flask import render_template, redirect, url_for, flash, request, jsonify
 from flask_login import current_user, login_user, logout_user, login_required
 from hack.forms import LoginForm, RegForm, UseResourceForm
-from hack.models import User, Post, Like, Comment, Resource, Page, ResourceUsage
+from hack.models import User, Post, Like, Comment, Resource, Page, ResourceUsage, Message
 from werkzeug.security import generate_password_hash, check_password_hash
 from uuid import uuid4
 from werkzeug.utils import secure_filename
 import datetime
 import requests
+import openai
+from dotenv import load_dotenv
+from os import getenv
+
+load_dotenv()
 
 app.config['UPLOAD_FOLDER'] = 'hack/static/uploads'
 create_db(app)
+openai.api_key = getenv('OPENAI_API_KEY')
 
 @app.route('/')
 def home():
@@ -167,6 +173,36 @@ def get_map_data():
 @app.route('/navigation')
 def navigation():
     return render_template('navigation.html')
+
+@app.route('/guru')
+@login_required
+def guru():
+    messages = Message.query.filter_by(user=current_user.id).all()
+    return render_template('guru2.html', messages=messages)
+
+@app.route('/ask_question', methods=['POST'])
+@login_required
+def ask_question():
+    messages = [{"role": "system", "content" : "You are the Nuxeland guru, a large language model trained by the development Team of Astral. Nuxeland is a mystical land where individuals get teleported to upon saying specific phrases. It is full of both desirable and undesirable creatures. Astral helps users stuck in Nuxeland to escape. It provides various features such as inventory management and analysis, navigation and a knowledge repository. Answer as concisely and simply as possible."}
+    ]
+    user_question = request.form['user_question']
+    message = Message(content=request.form['user_question'], role='user', user=current_user.id)
+    db.session.add(message)
+    db.session.commit()
+    messages.append({"role": "user", "content": user_question})
+
+
+    # Use the OpenAI GPT-3 API to get a response
+    completion = openai.ChatCompletion.create(
+    model="gpt-3.5-turbo", 
+    messages = messages)
+    response = Message(content=completion['choices'][0]['message']['content'], role='ai', user=current_user.id)
+    db.session.add(response)
+    db.session.commit()
+
+    print(response.content)
+
+    return jsonify({'response': completion['choices'][0]['message']['content']})
 
 @app.route('/find_route', methods=['POST'])
 def find_route():

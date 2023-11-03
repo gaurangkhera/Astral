@@ -24,6 +24,13 @@ class User(db.Model,UserMixin):
     resources = db.relationship('Resource', backref='authorResource', lazy=True)
     resource_usage = db.relationship('ResourceUsage', backref='authorResourceUsage', lazy=True)
 
+class Message(db.Model):
+    id = db.Column(db.String(32), primary_key=True, unique=True, default=get_uuid)
+    content = db.Column(db.Text)
+    role = db.Column(db.String)
+    user = db.Column(db.String, db.ForeignKey('user.id'))
+    created_at = db.Column(db.DateTime, default=datetime.datetime.now)
+    
 class ResourceUsage(db.Model):
     id = db.Column(db.String(32), primary_key=True, unique=True, default=get_uuid)
     date = db.Column(db.DateTime, default=datetime.datetime.now)

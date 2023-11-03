@@ -5,15 +5,14 @@
     <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-10">
       <!-- Announcement Banner -->
       <div class="flex justify-center">
-        <a class="inline-flex items-center gap-x-2 bg-white border border-gray-200 text-xs text-gray-600 p-2 px-3 rounded-full transition hover:border-gray-300 :bg-gray-800 :border-gray-700 :hover:border-gray-600 :text-gray-400" href="#">
-          Explore our new knowledge repository
-          <span class="flex items-center gap-x-1">
+        <a class="inline-flex items-center gap-x-2 bg-white border border-gray-200 text-xs text-gray-600 p-2 px-3 rounded-full transition hover:border-gray-300 :bg-gray-800 :border-gray-700 :hover:border-gray-600 :text-gray-400" href="/repository">
+          Explore our new knowledge repository<span class="flex items-center gap-x-1">
             <span class="border-l border-gray-200 text-[#243E36] pl-2 :text-blue-500">Explore</span>
             <svg class="w-2.5 h-2.5 text-[#243E36]" width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path d="M5.27921 2L10.9257 7.64645C11.1209 7.84171 11.1209 8.15829 10.9257 8.35355L5.27921 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
             </svg>
           </span>
-        </a>
+          </a>
       </div>
       <!-- End Announcement Banner -->
   
@@ -31,7 +30,9 @@
   
       <!-- Buttons -->
       <div class="mt-8 grid gap-3 w-full sm:inline-flex sm:justify-center">
-        <button class="px-6 py-3 bg-[#243E36] text-white rounded-lg font-medium text-lg"> Get Started -></button>
+        <a href="/{% if current_user.is_authenticated %}dashboard 
+          {% else %}reg
+        {% endif %}" class="px-6 py-3 bg-[#243E36] text-white rounded-lg font-medium text-lg"> Get Started -></a>
       </div>
       <!-- End Buttons -->
     </div>

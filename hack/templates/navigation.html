@@ -28,8 +28,12 @@
         });
         const bounds = [[0,0], [1000,1000]];
         const image = L.imageOverlay('../static/uploads/map.png', bounds).addTo(map);
+        const exitPortalLocation = L.latLng(
+            Math.random() * (bounds[1][0] - bounds[0][0]) + bounds[0][0],
+            Math.random() * (bounds[1][1] - bounds[0][1]) + bounds[0][1]
+        );
         const startPoint = L.latLng(500, 500); // Custom coordinates
-        const endPoint = L.latLng(600, 500); // Custom coordinates
+        const endPoint = {...exitPortalLocation}; // Custom coordinates
         map.fitBounds(bounds);
 
         const distanceIcon = L.divIcon({
@@ -58,6 +62,14 @@
         // Add event listeners to update the line when markers are dragged
         startMarker.on('drag', updateLine);
         endMarker.on('drag', updateLine);
+        const exitPortalMarker = L.marker(exitPortalLocation).addTo(map);
+
+        exitPortalMarker.bindTooltip('Exit Portal', {
+            direction: 'top', // Tooltip direction
+            permanent: true,   // Display the tooltip permanently (can be adjusted)
+        }).openTooltip();
+
+        updateLine()
 
         // Function to update the line when markers are dragged
         function updateLine() {

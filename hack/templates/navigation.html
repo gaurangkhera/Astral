@@ -71,6 +71,30 @@
 
         updateLine()
 
+        {% if current_user.is_authenticated && current_user.sub_plan == "Pro" %} 
+        for (let i = 0; i<2;i++) {
+            let food = L.latLng(
+            Math.random() * (bounds[1][0] - bounds[0][0]) + bounds[0][0],
+            Math.random() * (bounds[1][1] - bounds[0][1]) + bounds[0][1]);
+            let safe_base = L.latLng(
+            Math.random() * (bounds[1][0] - bounds[0][0]) + bounds[0][0],
+            Math.random() * (bounds[1][1] - bounds[0][1]) + bounds[0][1]);
+
+            const food_m = L.marker(food).addTo(map);
+            const safe_m = L.marker(safe_base).addTo(map);
+
+            food_m.bindTooltip('Food', {
+                direction: 'top', // Tooltip direction
+                permanent: true,   // Display the tooltip permanently (can be adjusted)
+            }).openTooltip();
+
+            safe_m.bindTooltip("Safe Base", {
+                direction: "top",
+                permanent: true
+            }).openTooltip()
+        }
+        {% endif%}
+
         // Function to update the line when markers are dragged
         function updateLine() {
             const startLatLng = startMarker.getLatLng();

@@ -50,19 +50,18 @@
         ).addTo(map);
 
         const startMarker = L.marker(startPoint, { draggable: true }).addTo(map);
-        const endMarker = L.marker(endPoint, { draggable: true }).addTo(map);
 
 
         // Create a straight line between the two points
-        const line = L.polyline([startMarker.getLatLng(), endMarker.getLatLng()], { color: '#4A89F3' }).addTo(map);
 
         // Fit the map to the bounds of the image overlay
-        map.fitBounds(bounds);
 
         // Add event listeners to update the line when markers are dragged
+        const exitPortalMarker = L.marker(exitPortalLocation).addTo(map);
+        const endMarker = L.marker(endPoint, { draggable: true }).addTo(map);
         startMarker.on('drag', updateLine);
         endMarker.on('drag', updateLine);
-        const exitPortalMarker = L.marker(exitPortalLocation).addTo(map);
+        const line = L.polyline([startMarker.getLatLng(), endMarker.getLatLng()], { color: '#4A89F3' }).addTo(map);
 
         exitPortalMarker.bindTooltip('Exit Portal', {
             direction: 'top', // Tooltip direction
@@ -70,8 +69,9 @@
         }).openTooltip();
 
         updateLine()
+        map.fitBounds(bounds);
 
-        {% if current_user.is_authenticated && current_user.sub_plan == "Pro" %} 
+        {% if True %} 
         for (let i = 0; i<2;i++) {
             let food = L.latLng(
             Math.random() * (bounds[1][0] - bounds[0][0]) + bounds[0][0],
